@@ -66,4 +66,11 @@ public class TicketMachine
             + (price - balance) + " cents!");
         }
     }
+    
+    public int refundBalance(){
+        int amountToRefund;
+        amountToRefund = balance;
+        balance = 0;
+        return amountToRefund;
+    }
 }
