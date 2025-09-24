@@ -1,0 +1,70 @@
+import java.util.Scanner;
+/**
+ * Write a description of class Main here.
+ *
+ * @author Kinan
+ * @version
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Dosen d1 = new Dosen("Pak Hilmil Muchtar", "201300");
+        Dosen d2 = new Dosen("Pak Arya Yudhi ", "201301");
+        Dosen d3 = new Dosen ("Pak Baskoro Adi", "200500"); 
+        Dosen d4 = new Dosen ("Pak Royyana Muslim", "200501");
+        Dosen d5 = new Dosen ("Pak Fajar Baskoro", "202300");
+        Dosen d6 = new Dosen ("Pak Victor Hariadi", "202500");
+        Dosen d7 = new Dosen ("Bu Dini Adni", "202502");
+        Dosen d8 = new Dosen ("Pak Hudan Studiawan", "200502");
+        Dosen d9 = new Dosen ("Pak Irfan Subakti", "200503");
+        Dosen d10 = new Dosen ("Bu Sarwosri", "200504");
+
+        MataKuliah mk1 = new MataKuliah("EF234305", "Matematika Diskrit", d1, "IF104");
+        MataKuliah mk2 = new MataKuliah("EF234201", "Konsep Kecerdasan Artifisial", d7, "IF101");
+        MataKuliah mk3 = new MataKuliah("EF234301", "Pemrograman Web", d9, "IF105");
+        MataKuliah mk4 = new MataKuliah("EF234302", "Pemrograman Berbasis Objek", d5, "IF102");
+        MataKuliah mk5 = new MataKuliah("EF234304", "Teori Graf", d2, "IF103");
+        MataKuliah mk6 = new MataKuliah("EF234303", "Jaringan Komputer", d3, "IF105");
+        MataKuliah mk7 = new MataKuliah("EF234303", "Jaringan Komputer", d4, "IF105");
+        MataKuliah mk8 = new MataKuliah("EF234303", "Jaringan Komputer", d8, "IF105");
+        MataKuliah mk9 = new MataKuliah("EF234303", "Teori Graf", d6, "IF112");
+        MataKuliah mk10 = new MataKuliah("EF234307", "KPPL", d10, "IF111");
+        
+        MataKuliah[] semuaMataKuliah = { mk1, mk2, mk3, mk4, mk5, mk6, mk7, mk8, mk9, mk10};
+        
+        System.out.print("Masukkan nama mahasiswa: ");
+        String nama = sc.nextLine();
+        System.out.print("Masukkan NRP mahasiswa: ");
+        String nrp = sc.nextLine();
+
+        Mahasiswa mhs = new Mahasiswa(nama, nrp);
+
+        System.out.println("\nDaftar Mata Kuliah:");
+        for (int i = 0; i < semuaMataKuliah.length; i++) {
+            System.out.println((i + 1) + ". " + semuaMataKuliah[i].getNama()
+                    + " | Dosen: " + semuaMataKuliah[i].getDosen().getNama()
+                    + " | Ruangan: " + semuaMataKuliah[i].getRuangan());
+        }
+
+        System.out.print("\nJumlah mata kuliah yang akan diambil? ");
+        int jumlah = sc.nextInt();
+
+        for (int i = 0; i < jumlah; i++) {
+            System.out.print("Pilih nomor MataKuliah ke-" + (i + 1) + ": ");
+            int pilihan = sc.nextInt();
+            if (pilihan >= 1 && pilihan <= semuaMataKuliah.length) {
+                mhs.tambahMataKuliah(semuaMataKuliah[pilihan - 1]);
+            } 
+            else {
+                System.out.println("Invalid.");
+            }
+        }
+
+        System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~");
+        mhs.printKRS();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+        sc.close();
+    }
+}
