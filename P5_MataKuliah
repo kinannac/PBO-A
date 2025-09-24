@@ -1,0 +1,25 @@
+public class MataKuliah {
+    private String kodemk;
+    private String nama;
+    private Dosen dosen;
+    private String ruangan;
+
+    public MataKuliah(String kodemk, String nama, Dosen dosen, String ruangan) {
+        this.kodemk = kodemk;
+        this.nama = nama;
+        this.dosen = dosen;
+        this.ruangan = ruangan;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public Dosen getDosen() {
+        return dosen;
+    }
+
+    public String getRuangan() {
+        return ruangan;
+    }
+}
