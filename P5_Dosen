@@ -1,0 +1,28 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Dosen {
+    private String nama;
+    private String kode;
+    private List<MataKuliah> daftarMataKuliah = new ArrayList<>();
+
+    public Dosen(String nama, String kode) {
+        this.nama = nama;
+        this.kode = kode;
+    }
+    
+    public void tambahMataKuliah(MataKuliah mk) {
+        daftarMataKuliah.add(mk);
+    }
+
+    public String getNama() {
+        return nama;
+    }
+    
+    public void printMataKuliah(){
+        System.out.println("Mata kuliah dengan dosen pengajar " + nama + ":");
+        for (MataKuliah mk : daftarMataKuliah){
+            System.out.println("- " + mk.getNama());
+        }
+    }
+}
