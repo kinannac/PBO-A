@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Mahasiswa {
+    private String nama;
+    private String nrp;
+    private List<MataKuliah> krs = new ArrayList<>();
+
+    public Mahasiswa(String nama, String nrp) {
+        this.nama = nama;
+        this.nrp = nrp;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void tambahMataKuliah(MataKuliah mk) {
+        krs.add(mk);
+    }
+
+    public void printKRS() {
+    System.out.println("KRS Mahasiswa: " + nama + " (" + nrp + ")");
+    for (MataKuliah mk : krs) {
+        System.out.println("- " + mk.getNama() +
+                           " | Dosen: " + mk.getDosen().getNama() +
+                           " | Ruangan: " + mk.getRuangan());
+    }
+}
+
+}
