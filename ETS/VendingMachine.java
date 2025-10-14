@@ -105,6 +105,7 @@ public class VendingMachine {
             if (c.isOutOfStock()) {
                 System.out.printf("!!! %s habis! Mohon refill.%n", c.getName());
             }
+            System.out.println(c);
         }
     }
 }
