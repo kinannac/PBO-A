@@ -1,4 +1,4 @@
-Latihan!
+## Latihan!
 
 1. Tuliskan implementasi dari program kecil Abstract Class Makhluk hidup yang diwariskan kepada manusia, hewan, dan tumbuhan
 
