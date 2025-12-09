@@ -28,15 +28,16 @@ public class LeaderboardDAO {
         Connection conn = Database.getConnection();
         Statement st = conn.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT * FROM leaderboard ORDER BY skor DESC");
+        ResultSet rs = st.executeQuery("SELECT * FROM leaderboard ORDER BY waktu ASC LIMIT 5");
 
         ArrayList<String> list = new ArrayList<>();
+        int no = 1;
 
         while (rs.next()) {
-            list.add(rs.getInt("id") + ". " + 
-                     rs.getString("nama") + " | Skor: " +
+            list.add(no + "." + rs.getString("nama") + " | Skor: " +
                      rs.getInt("skor") + " | Waktu: " +
                      rs.getInt("waktu"));
+            no++;
         }
 
         rs.close();
