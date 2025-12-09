@@ -10,6 +10,8 @@ Link Demo (Youtube):
 | Kinanti Ayu Caesandria | 5025241047 |
 | Shafira Nauraishma Zahida | 5025241235 |
 
+<br>
+
 Program Memory Game ini merupakan aplikasi permainan sederhana berbasis GUI (Graphical User Interface) yang dibangun menggunakan bahasa pemrograman Java, library Swing, dan database MySQL sebagai media penyimpanan skor.
 
 Pada permainan ini pemain diminta untuk menemukan pasangan angka pada papan berukuran 4x4 dalam waktu secepat mungkin. Setelah permainan selesai, skor pemain akan disimpan ke database dan dapat ditampilkan dalam leaderboard.
@@ -19,6 +21,8 @@ Tujuan utama pembuatan program ini adalah:
 - Menerapkan GUI interaktif menggunakan Swing.
 - Mengintegrasikan aplikasi Java dengan database menggunakan JDBC.
 - Menyediakan fitur CRUD sederhana untuk leaderboard.
+
+<br>
 
 ## MemoryGameGUI.java
 Class MemoryGameGUI merupakan kelas utama pada aplikasi Memory Game yang bertanggung jawab untuk mengelola antarmuka grafis (GUI) sekaligus alur permainan. Class ini berfungsi sebagai jendela aplikasi yang menampilkan papan permainan berbentuk grid 4×4, menangani interaksi pengguna melalui event klik kartu, serta mengatur logika pencocokan kartu, perhitungan skor dan waktu bermain, hingga mengirimkan data hasil permainan ke database. Pada class ini, terdapat 4 method yaitu:
@@ -38,6 +42,8 @@ Class MemoryGameGUI merupakan kelas utama pada aplikasi Memory Game yang bertang
 4. `finishGame()`
    
       Method finishGame() dijalankan ketika permainan telah selesai dan seluruh pasangan kartu berhasil dicocokkan oleh pemain. Method ini menghitung total waktu bermain berdasarkan selisih waktu awal dan akhir permainan, kemudian meminta pemain memasukkan nama sebagai identitas skor. Data nama, skor, dan waktu selanjutnya dikirim ke database melalui class LeaderboardDAO. Terakhir, method ini menampilkan ringkasan hasil permainan kepada pemain dan menandai berakhirnya program
+
+<br>
 
 ## LeaderboardDAO.java
 Class `LeaderboardDAO` merupakan komponen `Data Access Object (DAO)` yang berfungsi sebagai penghubung antara program dengan database. Class ini menyediakan operasi untuk menyimpan, membaca, mengubah, dan menghapus data leaderboard dari tabel `leaderboard`.
@@ -108,9 +114,155 @@ DELETE FROM leaderboard WHERE id=...
 ```
 * Menjalankannya menggunakan `Statement`.
 * Setelah selesai, objek statement dan koneksi ditutup.
+
+<br>
+
 ## Database.java
+``` java
+import java.sql.*;
+```
+
+Mengimpor seluruh kelas dalam package `java.sql` yang diperlukan untuk
+koneksi database melalui JDBC.
+
+``` java
+public class Database {
+```
+
+Mendefinisikan kelas utility bernama **Database** yang berfungsi sebagai
+pusat koneksi database.
+
+``` java
+private static final String URL = "jdbc:mysql://localhost:3306/game_db";
+private static final String USER = "root";
+private static final String PASS = "";
+```
+
+Menentukan konfigurasi koneksi: - `URL` → alamat database MySQL. -
+`USER` → username database. - `PASS` → password database.
+
+``` java
+public static Connection getConnection() throws Exception {
+```
+
+Method static untuk mengembalikan objek `Connection`. Dapat melempar
+exception jika koneksi gagal.
+
+``` java
+Class.forName("com.mysql.cj.jdbc.Driver");
+```
+
+Mengaktifkan driver JDBC MySQL agar Java tahu cara berkomunikasi dengan
+database.
+
+``` java
+return DriverManager.getConnection(URL, USER, PASS);
+```
+
+Membuka koneksi ke database dan mengembalikan objek `Connection`.
 
 ## Main.java
+
+``` java
+public class Main {
+    public static void main(String[] args) {
+        new MemoryGameGUI();
+    }
+}
+```
+
+-   `public class Main`\
+    Mendefinisikan kelas utama program.
+
+-   `public static void main(String[] args)`\
+    Titik awal eksekusi program.
+
+-   `new MemoryGameGUI();`\
+    Membuat instance GUI game dan secara otomatis membuka tampilan
+    permainan.
+
+<br>
+
+## Cara Kerja 
+1. Program dimulai
+
+2. Tampilkan grid kartu 8 x 8
+
+3. Game dimulai
+
+4. Player memilih dua kartu
+
+5. Cek kartu
+   - Jika cocok, simpan pasangan kartu sebagai matched
+   - Jika tidak cocok, balikkan kembali kedua kartu ke posisi kosong
+
+6. Cek apakah semua kartu telah ditemukan
+   - Jika belum, kembali ke langkah memilih kartu
+   - Jika sudah, lanjut ke langkah berikutnya
+
+7. Game selesai
+
+8. User memasukkan nama
+
+9. Tampilkan skor dan waktu permainan
+
+10. Tampilkan leaderboard
+
+11. Game ditutup
+
+<br>
+
+## Dokumentasi
+
+<p align="center">
+<img width="434" height="400" alt="Screenshot 2025-12-09 135008" src="https://github.com/user-attachments/assets/d710c84a-1e6f-4ccc-a1c2-6cafa700b3e7" />
+<br>
+   <b>Memory Game Classes</b>
+</p>
+<br>
+<p align="center">
+<img width="481" height="552" alt="Screenshot 2025-12-09 135821" src="https://github.com/user-attachments/assets/dd2293ef-8ed1-4dfe-a9b9-32f833fb405f" />
+<br>
+   <b>Tampilan sebelum game dimulai</b>
+</p>
+<br>
+<p align="center">
+<img width="481" height="550" alt="Screenshot 2025-12-09 135908" src="https://github.com/user-attachments/assets/66454fc2-d3e9-4e9f-b157-843d721973d0" />
+<br>
+   <b>Jika memilih pasangan kartu yang benar</b>
+</p>
+<br>
+<p align="center">
+<img width="483" height="548" alt="Screenshot 2025-12-09 135953" src="https://github.com/user-attachments/assets/75e7e0e8-96c1-4860-a397-7a0ae03051d3" />
+<img width="480" height="549" alt="Screenshot 2025-12-09 140003" src="https://github.com/user-attachments/assets/027ddc63-a104-4d2b-86c1-54fdec350e66" />
+<br>
+   <b>Jika memilih pasangan kartu yang salah (flipped ke kondisi kosong)</b>
+</p>
+<br>
+<p align="center">
+<img width="479" height="547" alt="Screenshot 2025-12-09 140051" src="https://github.com/user-attachments/assets/f71e317f-0caa-4eca-8de5-3897f5d19dae" />
+<br>
+   <b>Tampilan ketika game selesai (pemain menang)</b>
+</p>
+<br>
+<p align="center">
+<img width="479" height="548" alt="Screenshot 2025-12-09 140107" src="https://github.com/user-attachments/assets/112ddb98-83c2-4b23-9fdf-14e54826ab53" />
+<br>
+   <b>Pemain memasukkan namanya</b>
+</p>
+<br>
+<p align="center">
+<img width="478" height="554" alt="Screenshot 2025-12-09 140131" src="https://github.com/user-attachments/assets/5575a174-cbf8-4aa9-a7f3-c25327f50664" />
+<br>
+   <b>Menampilkan hasil skor dan waktu penyelesaian game</b>
+</p>
+<br>
+<p align="center">
+<img width="327" height="267" alt="Screenshot 2025-12-09 142708" src="https://github.com/user-attachments/assets/91da8a19-002a-4b03-b1be-eed5f13ec50b" />
+<br>
+   <b>Tampilan Leaderboard dengan 5 pemain teratas (berdasarkan waktu penyelesaian tercepat)</b>
+</p>
+<br>
 
 ## Kesimpulan
    Program Memory Game ini dirancang sebagai aplikasi berbasis GUI yang memungkinkan pengguna memainkan permainan mencocokkan kartu secara interaktif, di mana pemain membuka dua kartu untuk menemukan nilai yang sama hingga seluruh kartu berhasil dicocokkan. Program ini mencatat skor berdasarkan jumlah pasangan kartu yang berhasil dicocokkan lalu menghitung waktu yang dibutuhkan pemain untuk menyelesaikan game. Setelah game selesai, pemain diminta untuk memasukkan nama, kemudian sistem akan menampilkan hasil permainan dan menyimpan data tersebut ke dalam database untuk bisa dibandingkan dan dimunculkan di leaderboard.
