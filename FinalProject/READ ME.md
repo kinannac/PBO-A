@@ -40,7 +40,74 @@ Class MemoryGameGUI merupakan kelas utama pada aplikasi Memory Game yang bertang
   Method finishGame() dijalankan ketika permainan telah selesai dan seluruh pasangan kartu berhasil dicocokkan oleh pemain. Method ini menghitung total waktu bermain berdasarkan selisih waktu awal dan akhir permainan, kemudian meminta pemain memasukkan nama sebagai identitas skor. Data nama, skor, dan waktu selanjutnya dikirim ke database melalui class LeaderboardDAO. Terakhir, method ini menampilkan ringkasan hasil permainan kepada pemain dan menandai berakhirnya program
 
 ## LeaderboardDAO.java
+Class `LeaderboardDAO` merupakan komponen `Data Access Object (DAO)` yang berfungsi sebagai penghubung antara program dengan database. Class ini menyediakan operasi untuk menyimpan, membaca, mengubah, dan menghapus data leaderboard dari tabel `leaderboard`.
 
+Class ini menggunakan paket `java.sql` untuk koneksi `Database` dan `ArrayList` sebagai struktur penyimpanan sementara.
+
+**Import Library**
+```
+import java.sql.*; 
+import java.util.ArrayList;
+```
+Kode bagian ini mengimpor dua library penting sebagai berikut:
+
+- `java.sql.*` → Menyediakan kelas untuk koneksi `Database` seperti `Connection`, `Statement`, `PreparedStatement`, dan `ResultSet`.
+- `java.util.ArrayList` → Digunakan untuk menyimpan daftar hasil leaderboard yang sudah diproses sebelum dikembalikan ke program utama.
+
+**Method**
+1. `public static void insertScore()`
+
+Method ini berfungsi untuk menambahkan data skor baru ke dalam tabel leaderboard. Berikut penjelasan prosesnya:
+
+ - `Database.getConnection()` → Membuka koneksi ke database.
+ - `String sql` → Membuat query SQL menggunakan placeholder `(?)` agar lebih aman dari SQL Injection.
+ - `PreparedStatement ps` → Mengisi nilai `nama`, `skor`, dan `waktu` ke dalam query.
+ - `executeUpdate()` → Menjalankan perintah SQL sehingga database menambahkan baris baru ke tabel leaderboard.
+ - Setelah selesai, statement dan koneksi ditutup menggunakan `close()`.
+
+2. `public static ArrayList<String> getScores()`
+
+Method ini berfungsi untuk mengambil 5 pemain terbaik berdasarkan waktu tercepat dalam menyelesaikan permainan. Berikut penjelasan langkah kerjanya:
+
+  - `Database.getConnection()` → Membuka koneksi ke database.
+  - `Statement st` → Digunakan untuk menjalankan query SQL.
+  - `executeQuery("SELECT * FROM leaderboard ORDER BY waktu ASC LIMIT 5")`
+  → Mengambil maksimum 5 baris leaderboard yang sudah diurutkan berdasarkan waktu paling cepat (`ASC`).
+  - `ArrayList<String> list` → Menyimpan hasil leaderboard dalam bentuk teks.
+  - `int no = 1` → Digunakan sebagai nomor peringkat, karena id di database tidak mewakili ranking.
+  - `while(rs.next())` → Membaca setiap baris hasil query dengan ketentuan berikut:
+        - mengambil nama pemain, skor, dan waktu,
+        - memformatnya menjadi string seperti `"1. Nama | Skor: ... | Waktu: ..."`
+        - menyimpannya ke dalam `list`.
+  - Setelah selesai, `ResultSet`, `Statement`, dan koneksi database ditutup.
+  - Method mengembalikan `list` ke bagian program yang memanggilnya untuk ditampilkan kepada pemain.
+
+3. `public static void updateName()`
+
+Method ini berfungsi untuk mengubah nama pemain berdasarkan `id` yang terdapat pada tabel leaderboard. Berikut penjelasannya:
+
+- Membuka koneksi database menggunakan `Database.getConnection()`.
+- Membuat query SQL dengan placeholder:
+
+```
+UPDATE leaderboard SET nama=? WHERE id=?
+```
+- `PreparedStatement ps` → Mengisi nilai nama baru dan id pemain.
+- `executeUpdate()` → Menjalankan perintah sehingga baris pada database diperbarui.
+* Statement dan koneksi ditutup setelah operasi selesai.
+
+4. `public static void deleteScore()`
+
+Method ini berfungsi untuk menghapus satu baris data leaderboard berdasarkan `id` pemain. Cara kerjanya:
+
+* Membuka koneksi database.
+* Membuat query SQL:
+
+```
+DELETE FROM leaderboard WHERE id=...
+```
+* Menjalankannya menggunakan `Statement`.
+* Setelah selesai, objek statement dan koneksi ditutup.
 ## Database.java
 
 ## Main.java
