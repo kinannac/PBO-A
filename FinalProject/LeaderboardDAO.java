@@ -5,7 +5,7 @@
  * @author (your name)
  * @version (a version number or a date)
  */
-import java.sql.*;
+import java.sql.*; 
 import java.util.ArrayList;
 
 public class LeaderboardDAO {
