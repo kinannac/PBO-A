@@ -68,7 +68,7 @@ Kode bagian ini mengimpor dua library penting sebagai berikut:
     - `String sql` → Membuat query SQL menggunakan placeholder `(?)` agar lebih aman dari SQL Injection.
     - `PreparedStatement ps` → Mengisi nilai `nama`, `skor`, dan `waktu` ke dalam query.
     - `executeUpdate()` → Menjalankan perintah SQL sehingga database menambahkan baris baru ke tabel leaderboard.
-    - Setelah selesai, statement dan koneksi ditutup menggunakan `close()`.
+    - Setelah selesai, hasil `statement` dan koneksi database ditutup menggunakan `close()`.
 
 2. `public static ArrayList<String> getScores()`
 
@@ -84,31 +84,31 @@ Kode bagian ini mengimpor dua library penting sebagai berikut:
        - memformatnya menjadi string seperti `"1. Nama | Skor: ... | Waktu: ..."`
        - menyimpannya ke dalam `list`.
        
-     - Setelah selesai, `ResultSet`, `Statement`, dan koneksi database ditutup.
+     - Setelah selesai `ResultSet`, `Statement`, dan koneksi database ditutup.
      - Method mengembalikan `list` ke bagian program yang memanggilnya untuk ditampilkan kepada pemain.
 
 3. `public static void updateName()`
    
    Method ini berfungsi untuk mengubah nama pemain berdasarkan `id` yang terdapat pada tabel leaderboard. Berikut penjelasannya:
-   - Membuka koneksi database menggunakan `Database.getConnection()`.
-   - Membuat query SQL dengan placeholder:
+   - `Database.getConnection()` → Membuka koneksi ke database.
+   - `String sql` → Membuat query SQL dengan placeholder:
       ```
       UPDATE leaderboard SET nama=? WHERE id=?
       ```
    - `PreparedStatement ps` → Mengisi nilai nama baru dan id pemain.
    - `executeUpdate()` → Menjalankan perintah sehingga baris pada database diperbarui.
-   - Statement dan koneksi ditutup setelah operasi selesai.
+   - `Statement` dan koneksi database ditutup setelah operasi selesai.
 
 5. `public static void deleteScore()`
 
    Method ini berfungsi untuk menghapus satu baris data leaderboard berdasarkan `id` pemain. Cara kerjanya:
-   - Membuka koneksi database.
-   - Membuat query SQL:
+   - `Database.getConnection()` → Membuka koneksi ke database.
+   - `String sql` → Membuat query SQL:
       ```
       DELETE FROM leaderboard WHERE id=...
       ```
-   - Menjalankannya menggunakan `Statement`.
-   - Setelah selesai, objek statement dan koneksi ditutup.
+   - `Statement` → Menjalankan query SQL.
+   - Setelah selesai objek `Statement` dan koneksi ditutup.
 
 <br>
 
