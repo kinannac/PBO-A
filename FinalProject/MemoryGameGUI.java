@@ -105,19 +105,32 @@ public class MemoryGameGUI extends JFrame {
 
     void finishGame() {
         long waktu = (System.currentTimeMillis() - startTime) / 1000;
-
-        String nama = JOptionPane.showInputDialog(this, 
+    
+        String nama = JOptionPane.showInputDialog(this,
                         "Selamat! Masukkan nama:");
-
+    
         try {
-            LeaderboardDAO.insertScore(nama, skor, (int)waktu);
+            LeaderboardDAO.insertScore(nama, skor, (int) waktu);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "DB Error: " + ex.getMessage());
         }
-
+    
         JOptionPane.showMessageDialog(this,
             "Game selesai!\nSkor: " + skor + "\nWaktu: " + waktu + " detik");
-
+    
+        try {
+            ArrayList<String> list = LeaderboardDAO.getScores();
+            StringBuilder sb = new StringBuilder(" LEADERBOARD \n\n");
+    
+            for (String s : list) {
+                sb.append(s).append("\n");
+            }
+    
+            JOptionPane.showMessageDialog(this, sb.toString());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error load leaderboard: " + e.getMessage());
+        }
+    
         System.exit(0);
     }
 }
