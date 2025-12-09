@@ -23,21 +23,21 @@ Tujuan utama pembuatan program ini adalah:
 ## MemoryGameGUI.java
 Class MemoryGameGUI merupakan kelas utama pada aplikasi Memory Game yang bertanggung jawab untuk mengelola antarmuka grafis (GUI) sekaligus alur permainan. Class ini berfungsi sebagai jendela aplikasi yang menampilkan papan permainan berbentuk grid 4×4, menangani interaksi pengguna melalui event klik kartu, serta mengatur logika pencocokan kartu, perhitungan skor dan waktu bermain, hingga mengirimkan data hasil permainan ke database. Pada class ini, terdapat 4 method yaitu:
 
-1. generateCards()
+1. `generateCards()`
    
-  Method generateCards() berfungsi untuk menyiapkan kartu permainan dengan membuat delapan pasang yang diacak urutannya sebelum digunakan dalam permainan. Method ini menggunakan ArrayList untuk menampung sementara nilai kartu agar mudah diacak dengan Collections.shuffle(), lalu hasil acakan tersebut disalin ke dalam array values. Dengan cara ini, posisi kartu akan selalu berbeda setiap permainan dimulai
+      Method generateCards() berfungsi untuk menyiapkan kartu permainan dengan membuat delapan pasang yang diacak urutannya sebelum digunakan dalam permainan. Method ini menggunakan ArrayList untuk menampung sementara nilai kartu agar mudah diacak dengan Collections.shuffle(), lalu hasil acakan tersebut disalin ke dalam array values. Dengan cara ini, posisi kartu akan selalu berbeda setiap permainan dimulai
 
-2. handleClick()
+2. `handleClick()`
    
-  Method handleClick(int index) bertugas menangani interaksi pemain ketika sebuah kartu diklik. Method ini memastikan bahwa kartu yang sudah terbuka tidak dapat diklik kembali, menampilkan nilai kartu yang dipilih, serta mencatat kartu pertama dan kedua yang dibuka oleh pemain. Setelah dua kartu dipilih, method ini menggunakan Timer selama 0,5 detik untuk memberi kesempatan pemain melihat kartu sebelum kartu kembali tertutup.
+      Method handleClick(int index) bertugas menangani interaksi pemain ketika sebuah kartu diklik. Method ini memastikan bahwa kartu yang sudah terbuka tidak dapat diklik kembali, menampilkan nilai kartu yang dipilih, serta mencatat kartu pertama dan kedua yang dibuka oleh pemain. Setelah dua kartu dipilih, method ini menggunakan Timer selama 0,5 detik untuk memberi kesempatan pemain melihat kartu sebelum kartu kembali tertutup.
 
-3. checkMatch()
+3. `checkMatch()`
 
-  Method checkMatch() berperan untuk membandingkan dua kartu yang telah dipilih pemain. Jika kedua kartu memiliki nilai yang sama, skor pemain akan bertambah, sedangkan jika tidak cocok, kedua kartu tersebut akan ditutup kembali. Setelah proses pengecekan, indeks kartu di reset agar pemain dapat melanjutkan permainan berikutnya. Jika skor mencapai 8 alias semua pasangan ditemukan, permainan dianggap selesai dan method finishGame() dipanggil
+      Method checkMatch() berperan untuk membandingkan dua kartu yang telah dipilih pemain. Jika kedua kartu memiliki nilai yang sama, skor pemain akan bertambah, sedangkan jika tidak cocok, kedua kartu tersebut akan ditutup kembali. Setelah proses pengecekan, indeks kartu di reset agar pemain dapat melanjutkan permainan berikutnya. Jika skor mencapai 8 alias semua pasangan ditemukan, permainan dianggap selesai dan method finishGame() dipanggil
 
-4. finishGame()
+4. `finishGame()`
    
-  Method finishGame() dijalankan ketika permainan telah selesai dan seluruh pasangan kartu berhasil dicocokkan oleh pemain. Method ini menghitung total waktu bermain berdasarkan selisih waktu awal dan akhir permainan, kemudian meminta pemain memasukkan nama sebagai identitas skor. Data nama, skor, dan waktu selanjutnya dikirim ke database melalui class LeaderboardDAO. Terakhir, method ini menampilkan ringkasan hasil permainan kepada pemain dan menandai berakhirnya program
+      Method finishGame() dijalankan ketika permainan telah selesai dan seluruh pasangan kartu berhasil dicocokkan oleh pemain. Method ini menghitung total waktu bermain berdasarkan selisih waktu awal dan akhir permainan, kemudian meminta pemain memasukkan nama sebagai identitas skor. Data nama, skor, dan waktu selanjutnya dikirim ke database melalui class LeaderboardDAO. Terakhir, method ini menampilkan ringkasan hasil permainan kepada pemain dan menandai berakhirnya program
 
 ## LeaderboardDAO.java
 Class `LeaderboardDAO` merupakan komponen `Data Access Object (DAO)` yang berfungsi sebagai penghubung antara program dengan database. Class ini menyediakan operasi untuk menyimpan, membaca, mengubah, dan menghapus data leaderboard dari tabel `leaderboard`.
@@ -111,3 +111,8 @@ DELETE FROM leaderboard WHERE id=...
 ## Database.java
 
 ## Main.java
+
+## Kesimpulan
+   Program Memory Game ini dirancang sebagai aplikasi berbasis GUI yang memungkinkan pengguna memainkan permainan mencocokkan kartu secara interaktif, di mana pemain membuka dua kartu untuk menemukan nilai yang sama hingga seluruh kartu berhasil dicocokkan. Program ini mencatat skor berdasarkan jumlah pasangan kartu yang berhasil dicocokkan lalu menghitung waktu yang dibutuhkan pemain untuk menyelesaikan game. Setelah game selesai, pemain diminta untuk memasukkan nama, kemudian sistem akan menampilkan hasil permainan dan menyimpan data tersebut ke dalam database untuk bisa dibandingkan dan dimunculkan di leaderboard.
+
+   Dari sisi desain dan implementasi, program Memory Game ini tersusun dari empat class, yaitu Main, MemoryGameGUI, LeaderboardDAO, dan Database. Class Main berfungsi sebagai tempat memulai proses kerja program, MemoryGameGUI menangani antarmuka pengguna serta logika permainan, LeaderboardDAO mengelola akses dan manipulasi data leaderboard, sedangkan Database menyediakan koneksi ke sistem basis data MySQL.
