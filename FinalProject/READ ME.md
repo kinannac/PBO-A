@@ -63,57 +63,52 @@ Kode bagian ini mengimpor dua library penting sebagai berikut:
 **Method**
 1. `public static void insertScore()`
 
-Method ini berfungsi untuk menambahkan data skor baru ke dalam tabel leaderboard. Berikut penjelasan prosesnya:
-
- - `Database.getConnection()` → Membuka koneksi ke database.
- - `String sql` → Membuat query SQL menggunakan placeholder `(?)` agar lebih aman dari SQL Injection.
- - `PreparedStatement ps` → Mengisi nilai `nama`, `skor`, dan `waktu` ke dalam query.
- - `executeUpdate()` → Menjalankan perintah SQL sehingga database menambahkan baris baru ke tabel leaderboard.
- - Setelah selesai, statement dan koneksi ditutup menggunakan `close()`.
+   Method ini berfungsi untuk menambahkan data skor baru ke dalam tabel leaderboard. Berikut penjelasan prosesnya:
+    - `Database.getConnection()` → Membuka koneksi ke database.
+    - `String sql` → Membuat query SQL menggunakan placeholder `(?)` agar lebih aman dari SQL Injection.
+    - `PreparedStatement ps` → Mengisi nilai `nama`, `skor`, dan `waktu` ke dalam query.
+    - `executeUpdate()` → Menjalankan perintah SQL sehingga database menambahkan baris baru ke tabel leaderboard.
+    - Setelah selesai, statement dan koneksi ditutup menggunakan `close()`.
 
 2. `public static ArrayList<String> getScores()`
 
-Method ini berfungsi untuk mengambil 5 pemain terbaik berdasarkan waktu tercepat dalam menyelesaikan permainan. Berikut penjelasan langkah kerjanya:
-
-  - `Database.getConnection()` → Membuka koneksi ke database.
-  - `Statement st` → Digunakan untuk menjalankan query SQL.
-  - `executeQuery("SELECT * FROM leaderboard ORDER BY waktu ASC LIMIT 5")`
-  → Mengambil maksimum 5 baris leaderboard yang sudah diurutkan berdasarkan waktu paling cepat (`ASC`).
-  - `ArrayList<String> list` → Menyimpan hasil leaderboard dalam bentuk teks.
-  - `int no = 1` → Digunakan sebagai nomor peringkat, karena id di database tidak mewakili ranking.
-  - `while(rs.next())` → Membaca setiap baris hasil query dengan ketentuan berikut:
-        - mengambil nama pemain, skor, dan waktu,
-        - memformatnya menjadi string seperti `"1. Nama | Skor: ... | Waktu: ..."`
-        - menyimpannya ke dalam `list`.
-  - Setelah selesai, `ResultSet`, `Statement`, dan koneksi database ditutup.
-  - Method mengembalikan `list` ke bagian program yang memanggilnya untuk ditampilkan kepada pemain.
+   Method ini berfungsi untuk mengambil 5 pemain terbaik berdasarkan waktu tercepat dalam menyelesaikan permainan. Berikut penjelasan langkah kerjanya:
+     - `Database.getConnection()` → Membuka koneksi ke database.
+     - `Statement st` → Digunakan untuk menjalankan query SQL.
+     - `executeQuery("SELECT * FROM leaderboard ORDER BY waktu ASC LIMIT 5")` → Mengambil maksimum 5 baris leaderboard yang sudah diurutkan berdasarkan waktu paling cepat (`ASC`).
+     - `ArrayList<String> list` → Menyimpan hasil leaderboard dalam bentuk teks.
+     - `int no = 1` → Digunakan sebagai nomor peringkat, karena id di database tidak mewakili ranking.
+     - `while(rs.next())` → Membaca setiap baris hasil query dengan ketentuan berikut:
+       
+       - mengambil nama pemain, skor, dan waktu,
+       - memformatnya menjadi string seperti `"1. Nama | Skor: ... | Waktu: ..."`
+       - menyimpannya ke dalam `list`.
+       
+     - Setelah selesai, `ResultSet`, `Statement`, dan koneksi database ditutup.
+     - Method mengembalikan `list` ke bagian program yang memanggilnya untuk ditampilkan kepada pemain.
 
 3. `public static void updateName()`
+   
+   Method ini berfungsi untuk mengubah nama pemain berdasarkan `id` yang terdapat pada tabel leaderboard. Berikut penjelasannya:
+   - Membuka koneksi database menggunakan `Database.getConnection()`.
+   - Membuat query SQL dengan placeholder:
+      ```
+      UPDATE leaderboard SET nama=? WHERE id=?
+      ```
+   - `PreparedStatement ps` → Mengisi nilai nama baru dan id pemain.
+   - `executeUpdate()` → Menjalankan perintah sehingga baris pada database diperbarui.
+   - Statement dan koneksi ditutup setelah operasi selesai.
 
-Method ini berfungsi untuk mengubah nama pemain berdasarkan `id` yang terdapat pada tabel leaderboard. Berikut penjelasannya:
+5. `public static void deleteScore()`
 
-- Membuka koneksi database menggunakan `Database.getConnection()`.
-- Membuat query SQL dengan placeholder:
-
-```
-UPDATE leaderboard SET nama=? WHERE id=?
-```
-- `PreparedStatement ps` → Mengisi nilai nama baru dan id pemain.
-- `executeUpdate()` → Menjalankan perintah sehingga baris pada database diperbarui.
-* Statement dan koneksi ditutup setelah operasi selesai.
-
-4. `public static void deleteScore()`
-
-Method ini berfungsi untuk menghapus satu baris data leaderboard berdasarkan `id` pemain. Cara kerjanya:
-
-* Membuka koneksi database.
-* Membuat query SQL:
-
-```
-DELETE FROM leaderboard WHERE id=...
-```
-* Menjalankannya menggunakan `Statement`.
-* Setelah selesai, objek statement dan koneksi ditutup.
+   Method ini berfungsi untuk menghapus satu baris data leaderboard berdasarkan `id` pemain. Cara kerjanya:
+   - Membuka koneksi database.
+   - Membuat query SQL:
+      ```
+      DELETE FROM leaderboard WHERE id=...
+      ```
+   - Menjalankannya menggunakan `Statement`.
+   - Setelah selesai, objek statement dan koneksi ditutup.
 
 <br>
 
