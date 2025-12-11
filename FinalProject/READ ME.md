@@ -181,7 +181,7 @@ public class Main {
 ## Cara Kerja 
 1. Program dimulai
 
-2. Tampilkan grid kartu 8 x 8
+2. Tampilkan grid kartu 4 x 4
 
 3. Game dimulai
 
